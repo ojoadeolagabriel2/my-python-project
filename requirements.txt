@@ -8,6 +8,8 @@ chardet==4.0.0
 click==8.0.1
 cryptography==3.4.7
 Django==3.2.3
+env==0.1.0
+environs==9.3.2
 et-xmlfile==1.1.0
 Flask==2.0.1
 flask-restplus==0.13.0
@@ -18,12 +20,14 @@ Jinja2==3.0.1
 jsonify==0.5
 jsonschema==3.2.0
 MarkupSafe==2.0.1
+marshmallow==3.12.1
 openpyxl==3.0.7
 paramiko==2.7.2
 pycparser==2.20
 PyNaCl==1.4.0
 pyrsistent==0.17.3
 pysftp==0.2.9
+python-dotenv==0.17.1
 pytz==2021.1
 requests==2.25.1
 six==1.16.0
