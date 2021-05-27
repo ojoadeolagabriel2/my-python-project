@@ -3,7 +3,7 @@
 set -xe
 
 # shellcheck disable=SC2039
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && cd ../.. && pwd )"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && cd .. && pwd )"
 DOCKER_ACCESS_TOKEN="${ENV_DOCKER_ACCESS_TOKEN:-51551b89-7a36-48a9-a8d1-e41c95b0077e}"
 DOCKER_USERNAME="${ENV_DOCKER_USERNAME:-ojoadeolagabriel}"
 SERVICE_NAME="${ENV_SERVICE_NAME:-my-py-app}"
@@ -26,5 +26,4 @@ docker build -t "${IMAGE_NAME}:${VERSION}" .
 docker push "${IMAGE_NAME}:latest"
 
 # cleanup
-mvn clean
 docker system prune -af
