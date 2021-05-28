@@ -10,8 +10,9 @@ metadata:
   name: my-py-app-config-map
   namespace: py-ns
 data:
-  database: mongodb
-  database_uri: mongodb://localhost:27017
+  ENV_POKEMON_SERVICE_HOST: "pokemon-information-service-service.information-ns.svc.cluster.local"
+  ENV_APP_PORT: "12345"
+  ENV_POKEMON_SERVICE_HOST_PORT: "50002"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -23,7 +24,7 @@ spec:
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 1
+      maxSurge: 2
       maxUnavailable: 0
   selector:
     matchLabels:
@@ -33,6 +34,8 @@ spec:
       labels:
         app: my-py-app
     spec:
+      imagePullSecrets:
+        - name: app-secret
       initContainers:
         - name: init-myservice
           image: busybox:1.28
