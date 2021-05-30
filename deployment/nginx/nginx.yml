@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aloeda-nginx
+  namespace: py-ns
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: aloeda-nginx
+  template:
+    metadata:
+      labels:
+        app: aloeda-nginx
+    spec:
+      containers:
+        - name: aloeda-nginx
+          image: ojoadeolagabriel/aloeda-nginx:latest
+          ports:
+            - containerPort: 80
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aloeda-nginx-service
+  namespace: py-ns
+spec:
+  selector:
+    app: aloeda-nginx
+  ports:
+    - port: 80
+      targetPort: 80
+  type: LoadBalancer
