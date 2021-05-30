@@ -1,8 +1,13 @@
 import os
 import logging
 
-__default_k8s_host__ = "pokemon-information-service-service.information-ns.svc.cluster.local"
-__default_host__ = "localhost"
+__default_k8s_host__ = "localhost"
+__default_k8s_host_port__ = 50002
+URL_TEMPLATE = "http://{}:{}/pokemon/{}"
+
+
+def resolve_app_env():
+    return "production" if os.environ.__contains__("ENV_IS_PROD_ENV") else "development"
 
 
 def resolve_app_port():
@@ -11,7 +16,7 @@ def resolve_app_port():
         return int(os.environ["ENV_APP_PORT"])
     else:
         logging.debug("found nothing ENV_APP_PORT")
-        return 12345
+        return 12346
 
 
 def resolve_pokemon_host():
@@ -29,4 +34,4 @@ def resolve_pokemon_host_port():
         return str(os.environ["ENV_POKEMON_SERVICE_HOST_PORT"])
     else:
         logging.debug("found nothing ENV_POKEMON_SERVICE_HOST_PORT")
-        return 50002
+        return __default_k8s_host_port__
