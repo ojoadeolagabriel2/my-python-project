@@ -1,5 +1,5 @@
 import logging
-from utils.resolver import *
+from utils.app_environment import *
 from flask import Flask
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')

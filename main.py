@@ -1,9 +1,9 @@
 import requests
 import logging
-from flask import jsonify, request
-import utils.resolver as resolver
-from utils.app import AppContext
-from utils.responsecode import ResponseCode
+from flask import jsonify, request, render_template, make_response
+import utils.app_environment as resolver
+from utils.app_context import AppContext
+from utils.app_response_code import ResponseCode
 
 app = AppContext().app
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
@@ -21,6 +21,13 @@ def create_pokemon():
         print("called POST /api/v1/pokemon done")
 
 
+@app.route("/api/v1/monster/<name>", methods=['GET'])
+def fetch_monster(name):
+    resp = make_response(render_template("application/json", username='dexter'))
+    resp.headers["x-response"] = name
+    return resp
+
+
 @app.route("/api/v1/pokemon/<name>", methods=['GET'])
 def display_total_amount(name=None):
     try:
@@ -36,7 +43,7 @@ def display_total_amount(name=None):
         response = requests.get(resolver.URL_TEMPLATE.format(resolver.resolve_pokemon_host(),
                                                              resolver.resolve_pokemon_host_port(),
                                                              name), headers=request_header)
-        return jsonify({"id": "1", "description": response.json()["description"]})
+        return jsonify({"id": 1, "description": response.json()["description"]})
     except Exception as error:
         return jsonify({"code": ResponseCode.UNKNOWN, "message": str(error)})
     finally:
@@ -46,7 +53,7 @@ def display_total_amount(name=None):
 @app.route("/api/v1/pokemon/<int:pokemon_id>", methods=['GET'])
 def display_total_amount_by_id(pokemon_id):
     try:
-        logging.debug(f"read pokemon_id {pokemon_id} from /api/v1/pokemon/<int:pokemon_id>")
+        logging.debug(f"read pokemon_id {pokemon_id} from /api/v1/pokemon/<pokemon_id>")
 
         response = requests.get(resolver.URL_TEMPLATE.format(resolver.resolve_pokemon_host(),
                                                              resolver.resolve_pokemon_host_port(),
